@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:vaadin="http://www.jdal.org/schema/vaadin"
+	xmlns:jdal="http://www.jdal.org/schema/jdal" xmlns:p="http://www.springframework.org/schema/p"
+	default-init-method="init" xmlns:jdal-aop="http://www.jdal.org/schema/jdal-aop"
+	xsi:schemaLocation="http://www.jdal.org/schema/vaadin http://www.jdal.org/schema/jdal/jdal-vaadin.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.jdal.org/schema/jdal http://www.jdal.org/schema/jdal/jdal-core.xsd
+		http://www.jdal.org/schema/jdal-aop http://www.jdal.org/schema/jdal-aop.xsd">
+
+	<!-- UI Widgets -->
+
+	<!-- Register default Vaadin components -->
+	<vaadin:defaults />
+
+	<!-- Vaadin scoped beans are linked to UI class instances -->
+	<bean id="vaadinScopeConfigurer"
+		class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="ui" value="org.jdal.vaadin.beans.VaadinScope" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Application UI -->
+	<bean id="uid" class="org.jdal.samples.vaadin.TestApp" scope="prototype"
+		p:buttonBar-ref="buttonBar" />
+
+	<!-- Login UI -->
+	<bean id="loginUi" class="org.jdal.samples.vaadin.LoginUI" scope="prototype">
+		<property name="loginView" ref="loginView" />
+	</bean>
+
+	<bean id="springViewProvider" class="org.jdal.vaadin.ui.SpringViewProvider"
+		scope="prototype" p:defaultView="bookMainView" />
+
+	<!-- Top button menu -->
+	<vaadin:button-bar id="buttonBar" scope="prototype">
+		<vaadin:actions>
+			<vaadin:navigator-action caption="Users" view-name="userMainView" icon="classpath:/org/freedesktop/tango/22x22/apps/system-users.png"
+				access="ROLE_ADMIN" />
+			<vaadin:navigator-action caption="Users Report" view-name="aboutMainView" icon="classpath:/org/freedesktop/tango/22x22/apps/help-browser.png" />
+			<bean class="org.jdal.vaadin.ui.action.ExitAction" p:caption="Logout"
+				p:icon="classpath:/org/freedesktop/tango/22x22/actions/system-shutdown.png" />
+		</vaadin:actions>
+	</vaadin:button-bar>
+
+	<!-- Make main views ui scoped to avoid recreating thems in every page change -->
+	<bean id="userMainView" class="org.jdal.samples.vaadin.UserMainView"
+		scope="ui" />
+
+	<bean id="aboutMainView" class="org.jdal.samples.vaadin.AboutMainView"
+		scope="ui" />
+
+	<!-- Abstract definition for Views -->
+	<bean id="view" abstract="true">
+		<property name="controlInitializer" ref="controlInitializer" />
+		<property name="errorProcessors">
+			<list>
+				<ref bean="errorProcessor" />
+			</list>
+		</property>
+		<property name="validator" ref="validator" />
+	</bean>
+
+	<bean id="loginView" class="org.jdal.vaadin.auth.LoginView"
+		parent="view" scope="prototype" p:width="400" p:height="250"
+		p:applicationName="bookLibrary" p:applicationIcon="images/login_button.png" />
+
+
+	<bean id="controlInitializer" class="org.jdal.vaadin.ui.bind.VaadinControlInitializer">
+		<property name="persistentService" ref="contextPersistentService" />
+	</bean>
+
+	<!-- Spring JSR-303 validator -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<jdal:serializable-proxy />
+	</bean>
+
+	<!-- Error Processor -->
+	<bean id="errorProcessor" class="org.jdal.vaadin.ui.bind.UserErrorProcessor" />
+	<bean id="customDateEditor"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor"
+		scope="prototype">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="MM/dd/yyyy" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+		<jdal:serializable-proxy />
+	</bean>
+
+	<!-- User Table -->
+	<vaadin:table entity="org.jdal.samples.model.User"
+		filter-form="userFilterView" scope="prototype"
+		container-class="org.jdal.vaadin.data.ListBeanContainer">
+		<vaadin:columns>
+			<vaadin:column name="id" display-name="ID" width="60" />
+			<vaadin:column name="username" display-name="User" width="250" />
+			<vaadin:column name="name" display-name="Name" width="250" />
+			<vaadin:column name="surname" display-name="Surname" width="200" />
+			<vaadin:column name="registerDate" display-name="Register Date" width="200" />
+			<vaadin:column name="email" display-name="Email" width="250" />
+		</vaadin:columns>
+	</vaadin:table>
+
+	<bean id="userEditor" class="org.jdal.samples.vaadin.UserView"
+		parent="view" scope="prototype" p:width="500" p:height="350"
+		p:persistentService-ref="userService" />
+
+	<bean id="userFilterView" class="org.jdal.samples.vaadin.UserFilterView"
+		parent="view" scope="prototype" />
+</beans>
