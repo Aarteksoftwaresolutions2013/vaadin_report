@@ -6,6 +6,10 @@ import org.jdal.dao.BeanFilter;
 
 public class UserFilter extends BeanFilter {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String name;
 	private String surname;

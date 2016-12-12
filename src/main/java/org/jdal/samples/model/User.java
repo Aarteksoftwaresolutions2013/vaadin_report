@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -20,12 +21,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity(name="user")
+//@Entity(name="dbo.user")
+@Entity
+@Table(name = "[user]", schema = "[dbo]" )
 public class User extends DefaultUser implements UserDetails {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@Fetch(FetchMode.SELECT)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	@JoinTable(name = "[user_role]", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Set<Role> roles = new HashSet<Role>();
 
 	@Override
@@ -56,7 +63,6 @@ public class User extends DefaultUser implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
 	/**
 	 * @return the roles
 	 */
@@ -70,5 +76,4 @@ public class User extends DefaultUser implements UserDetails {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
 }

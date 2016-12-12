@@ -9,13 +9,21 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/*@Entity
+@Table(name="dbo.role")*/
 @Entity
-@Table(name="role")
+@Table( name = "[role]", schema = "[dbo]" )
 public class Role implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@NotEmpty
 	private String role;
 	

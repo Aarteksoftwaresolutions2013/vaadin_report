@@ -25,7 +25,12 @@ import com.vaadin.ui.TwinColSelect;
 
 public class UserView extends AbstractView<User> {
 
-    private static final Log log = LogFactory.getLog(UserView.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private static final Log LOG = LogFactory.getLog(UserView.class);
 
     private TextField username = FormUtils.newTextField();
     private TextField name = FormUtils.newTextField();
@@ -86,7 +91,7 @@ public class UserView extends AbstractView<User> {
                 try {
                     getModel().setPassword(authStrategy.crypt(p));
                 } catch (NoSuchAlgorithmException e) {
-                    log.error(e);
+                    LOG.error(e);
                 }
             } else {
                 addError(new FieldError("passwordMitmatch", "passwd", "Passwords doesn't match"));

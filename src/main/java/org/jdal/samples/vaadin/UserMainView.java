@@ -18,7 +18,11 @@ import com.vaadin.ui.VerticalLayout;
 @ViewConfig(access = "ROLE_ADMIN")
 public class UserMainView extends VerticalLayout implements View {
 
-    @Resource
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Resource
     private PageableTable<User> userPageableTable;
     @Resource
     private PageableTable<Role> rolePageableTable;

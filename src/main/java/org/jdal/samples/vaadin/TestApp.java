@@ -36,6 +36,11 @@ import com.vaadin.ui.Label;
 @Title("Vaadin Report Demo")
 public class TestApp extends SimpleApplicationUI {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doInit(VaadinRequest request) {
 		setErrorHandler(new SecurityErrorHandler());

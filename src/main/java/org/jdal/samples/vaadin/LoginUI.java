@@ -13,4 +13,9 @@ import com.vaadin.annotations.Theme;
 @UiMapping("/login")
 public class LoginUI extends org.jdal.vaadin.auth.LoginUI {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 }

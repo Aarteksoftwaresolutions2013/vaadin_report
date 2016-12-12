@@ -20,6 +20,10 @@ import com.vaadin.ui.TextField;
  */
 public class UserFilterView extends AbstractView<UserFilter> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TextField username = FormUtils.newTextField();
 	private TextField name = FormUtils.newTextField();
 	private TextField surname = FormUtils.newTextField();
@@ -42,7 +46,7 @@ public class UserFilterView extends AbstractView<UserFilter> {
 	@Override
 	protected Component buildPanel() {
 		BoxFormBuilder fb = new BoxFormBuilder();
-	/*	fb.setDefaultWidth(BoxFormBuilder.SIZE_FULL);
+		/*fb.setDefaultWidth(BoxFormBuilder.SIZE_FULL);
 		fb.setMargin(false);
 		fb.row();
 		fb.add(username, getMessage("username"));

@@ -6,7 +6,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
 	<http pattern="/login*" security="none" />
 	<http pattern="/VAADIN/**" security="none" />
 	<http pattern="/HEARBEAT/**" security="none" />
@@ -15,7 +14,7 @@
 	<http authentication-manager-ref="authenticationManager">
 		<csrf disabled="true"/>
 		<intercept-url pattern="/UIDL/**" access="permitAll" />
-		<intercept-url pattern="/**" access="hasRole('USER')" />
+		<intercept-url pattern="/**" access="hasRole('ADMIN')" />
 	    <form-login login-page="/login"/>
 		<logout /> 
 	</http>

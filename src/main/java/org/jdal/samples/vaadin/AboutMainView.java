@@ -37,7 +37,11 @@ import com.vaadin.ui.themes.Reindeer;
 
 public class AboutMainView extends TabSheet implements View, StreamSource {
 
-    private MessageSourceWrapper messageSource = new MessageSourceWrapper();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private MessageSourceWrapper messageSource = new MessageSourceWrapper();
     private VerticalLayout aboutPanel;
 
     @Resource
